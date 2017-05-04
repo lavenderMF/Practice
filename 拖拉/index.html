@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>地上有石子，捡几个吧</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+        .lanzi{
+            width: 400px;
+            height: 200px;
+            border:1px solid black;
+        }
+        .floor{
+            width: 500px;
+            height: 80px;
+            border: 1px solid black;
+        }
+        .shizi{
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #ccc;
+            border-radius: 20px;
+            margin-top: 40px;
+            text-align: center;
+            line-height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h4>我是篮子</h4>    
+    <div class="lanzi" id="lanzi"></div>
+    <h4>我是地</h4>
+    <div class="floor" id="floor">
+        <span class="shizi" draggable="true" data-id="1">石子</span>
+        <span class="shizi" draggable="true" data-id="2">石子</span>
+        <span class="shizi" draggable="true" data-id="3">石子</span>
+        <span class="shizi" draggable="true" data-id="4">石子</span>
+        <span class="shizi" draggable="true" data-id="5">石子</span>
+        <span class="shizi" draggable="true" data-id="6">石子</span>
+        <span class="shizi" draggable="true" data-id="7">石子</span>
+        <span class="shizi" draggable="true" data-id="8">石子</span>
+        <span class="shizi" draggable="true" data-id="9">石子</span>
+        <span class="shizi" draggable="true" data-id="10">石子</span>
+    </div>
+    <script type="text/javascript">
+        window.addEventListener("load",handler,false);
+        function handler(){
+            var floor = document.getElementById("floor");
+            var lanzi = document.getElementById("lanzi");
+            var shizi;
+            floor.addEventListener("dragstart",function(e){
+                if(e.target.className == "shizi"){
+                    shizi = e.target;
+                    var dt = e.dataTransfer;
+                    dt.effectedAllowed = "all";
+                }
+            },false);
+
+            lanzi.addEventListener("dragend",function(e){e.preventDefault()},false);
+            lanzi.addEventListener("drop",function(e){
+                var data = e.dataTransfer.getData("text/plain");
+                lanzi.appendChild(shizi);
+                e.preventDefault();
+                e.stopPropagation();
+            },false);
+
+            document.ondragover = function(e){e.preventDefault();}
+            document.ondrop = function(e){e.preventDefault();}
+        }
+    </script>
+</body>
+</html>
