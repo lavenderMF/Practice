@@ -23,15 +23,15 @@
 			</div>
 		</div>
 		<div class="mySongSheet">
-			<div class="mySongSheetHead">				
+			<div class="mySongSheetHead" @click="hideMySongSheet">
 				<div class="leftIcon"></div>
 				<div class="SongSheetTitle">创建的歌单<span class="tip">(0)</span></div>
 				<div class="setUp"></div>
 			</div>
-			<ul class="mySongSheetList">
+			<ul class="mySongSheetList mySongSheetDis" v-show="mySongSheetDis">
 				<li class="mySongSheetItem">
 					<img class="SongSheetAvatar"></img>
-					<div class="rightContent">						
+					<div class="rightContent">
 						<div class="SongSheetInfo">
 							<span class="SongSheetName">我的歌单</span>
 							<span class="SongSheetNum">176首</span>
@@ -48,15 +48,17 @@
 					<span class="isPlayIcon"></span>
 				</li>
 			</ul>
-			<div class="mySongSheetHead">				
+		</div>
+		<div class="collectSongSheet mySongSheet">
+			<div class="mySongSheetHead collecteSongSheet" @click="hideCollectSongSheet">
 				<div class="leftIcon"></div>
 				<div class="SongSheetTitle">收藏的歌单<span class="tip">(0)</span></div>
 				<div class="setUp"></div>
 			</div>
-			<ul class="mySongSheetList">
+			<ul class="mySongSheetList" v-show="collectSongSheetDis">
 				<li class="mySongSheetItem">
 					<img class="SongSheetAvatar"></img>
-					<div class="rightContent">						
+					<div class="rightContent">
 						<div class="SongSheetInfo">
 							<span class="SongSheetName">我的歌单</span>
 							<span class="SongSheetNum">176首</span>
@@ -78,86 +80,128 @@
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+				MySongSheetIsShow: true,
+				collectSongSheetIsShow: true
+			}
+		},
+		methods: {
+			hideMySongSheet() {
+				this.MySongSheetIsShow = !this.MySongSheetIsShow;
+			},
+			hideCollectSongSheet() {
+				this.collectSongSheetIsShow = !this.collectSongSheetIsShow;
+			}
+		},
+		computed: {
+			mySongSheetDis() {
+				return this.MySongSheetIsShow;
+			},
+			collectSongSheetDis() {
+				return this.collectSongSheetIsShow;
+			}
+		}
+	}
 </script>
 
 <style>
-	.aboutMy{
+	.aboutMy {
 		background: #F2F2F2;
 	}
-	.aboutItem{
+	
+	.aboutItem {
 		height: 60px;
 		display: flex;
 		text-align: left;
 		line-height: 60px;
 	}
-	.aboutItem .leftIcon{
+	
+	.aboutItem .leftIcon {
 		flex: 0 0 60px;
 	}
-	.aboutItem .rightTitle{
+	
+	.aboutItem .rightTitle {
 		flex: 1;
 		border-bottom: 1px solid #D9DDDC;
 	}
-	.aboutItem:last-child .rightTitle{
+	
+	.aboutItem:last-child .rightTitle {
 		border-bottom: none;
 	}
-	.aboutItem .rightTitle .tip{
+	
+	.aboutItem .rightTitle .tip {
 		margin-left: 5px;
 		font-size: 14px;
 		color: #979B9A;
 	}
-	.mySongSheet .mySongSheetHead{
+	
+	.mySongSheet .mySongSheetHead {
 		height: 40px;
 		background: #E7E9E8;
 		display: flex;
 	}
-	.mySongSheet .leftIcon{
+	
+	.mySongSheet .leftIcon {
 		flex: 0 0 40px;
 	}
-	.mySongSheet .SongSheetTitle{
+	
+	.mySongSheet .SongSheetTitle {
 		flex: 1;
 		text-align: left;
 		color: #606162;
 		font-size: 14px;
 		line-height: 40px;
 	}
-	.mySongSheet .setUp{
+	
+	.mySongSheet .setUp {
 		flex: 0 0 40px;
 	}
-	.mySongSheet .mySongSheetList{
+	
+	.mySongSheet .mySongSheetList {
 		background: #F2F2F2;
 	}
-	.mySongSheet .mySongSheetList .mySongSheetItem{
+	
+	.mySongSheet .mySongSheetList .mySongSheetItem {
 		height: 84px;
 		display: flex;
 	}
-	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetAvatar{
+	
+	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetAvatar {
 		width: 78px;
 		height: 78px;
 		margin: 4px 5px;
 		flex: 0 0 78px;
 	}
-	.rightContent{
+	
+	.rightContent {
 		border-bottom: 1px solid #D9DDDC;
 		flex: 1;
 		display: flex;
 	}
-	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo{
+	
+	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo {
 		flex: 1;
 	}
-	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo span{
+	
+	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo span {
 		display: block;
 		text-align: left;
 		margin: 20px 0 0 16px;
 	}
-	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo .SongSheetName{
+	
+	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo .SongSheetName {
 		font-size: 16px;
 	}
-	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo .SongSheetNum{
+	
+	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo .SongSheetNum {
 		font-size: 14px;
 		margin: 14px 0 0 16px;
 		color: #979B9A;
 	}
-	.mySongSheet .mySongSheetList .mySongSheetItem .isPlayIcon{
+	
+	.mySongSheet .mySongSheetList .mySongSheetItem .isPlayIcon {
 		flex: 0 0 40px;
 		margin-right: 10px;
 	}
