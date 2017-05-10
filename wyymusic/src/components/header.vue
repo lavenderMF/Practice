@@ -31,6 +31,17 @@
 				slideIsShow: false
 			}
 		},
+		watch: {
+			slideIsShow(){
+				if(!this.slideIsShow){
+					let theBody = document.querySelector('body');
+					theBody.style.overflow = 'auto';
+				}else{
+					let theBody = document.querySelector('body');
+					theBody.style.overflow = 'hidden';
+				}
+			}
+		},
 		methods: {
 			showSlide() {
 				this.slideIsShow = !this.slideIsShow;
@@ -53,13 +64,17 @@
 <style>
 	.sideMore {
 		position: fixed;
-		z-index: 100;
+		z-index: 999;
 		width: 100%;
 		height: 100%;
+		top: 0;
+		left: 0;
 		background: rgba(0, 0, 0, .5);
 	}
 	
 	.header {
+		position: fixed;
+		width: 100%;
 		height: 50px;
 		background: #D33B30;
 		display: flex;

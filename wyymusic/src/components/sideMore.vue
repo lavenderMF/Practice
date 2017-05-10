@@ -6,7 +6,29 @@
 				<span class="username">H丶MF<em>lv.7</em></span>
 				<div class="signQD">签到</div>
 			</div>
-			<div class="bottomSetUp"></div>
+			<div class="slideContentFunction" ref="slideContentFunction">
+				<ul class="slideContentFunctionItem">
+					<li><span class="slideLeftIcon"></span>我的消息</li>
+					<li><span class="slideLeftIcon"></span>会员中心</li>
+					<li><span class="slideLeftIcon"></span>商城</li>
+					<li><span class="slideLeftIcon"></span>在线听歌免流量</li>
+				</ul>
+				<ul class="slideContentFunctionItem">
+					<li><span class="slideLeftIcon"></span>我的好友</li>
+					<li><span class="slideLeftIcon"></span>附近的人</li>
+				</ul>
+				<ul class="slideContentFunctionItem">
+					<li><span class="slideLeftIcon"></span>个性换肤</li>
+					<li><span class="slideLeftIcon"></span>听歌识曲</li>
+					<li><span class="slideLeftIcon"></span>定时停止音乐</li>
+					<li><span class="slideLeftIcon"></span>音乐闹钟</li>
+				</ul>
+			</div>
+			<div class="bottomSetUp">
+				<span class="pattern">夜间模式</span>
+				<span class="setUp">设置</span>
+				<span class="Quit">退出</span>
+			</div>
 		</div>
 	</transition>
 </template>
@@ -14,11 +36,12 @@
 <script>
 	export default {
 		methods: {
-			cancelClick(event){
-				if(!event._constructed) {
-					return;
-				}
+			cancelClick(event) {
+				event.stopPropagation();
 			}
+		},
+		created() {
+			let slideContentFunction = this.$refs.slideContentFunction;
 		}
 	}
 </script>
@@ -30,9 +53,13 @@
 		height: 100%;
 		position: relative;
 		background: #F2F2F2;
+		box-sizing: border-box;
+		flex-direction: column;
+		display: flex;
 	}
 	
 	.user {
+		flex: 0 0 200px;
 		height: 200px;
 		overflow: hidden;
 		color: #fff;
@@ -92,7 +119,7 @@
 	.slide-enter,
 	.slide-leave-active {
 		transform: translateX(-100px);
-		opacity: 0;
+		/*opacity: 0;*/
 	}
 	
 	.bottomSetUp {
@@ -100,6 +127,44 @@
 		bottom: 0;
 		height: 42px;
 		width: 100%;
-		background: #298FF8;
+		background: #fff;
+		border-top: 1px solid #ccc;
+		display: flex;
+	}
+	.bottomSetUp span{
+		flex: 1;
+		line-height: 42px;
+	}
+	
+	.slideContentFunction {
+		overflow-y: auto;
+		flex: 1;
+		padding-bottom: 42px;
+	}
+	
+	.slideContentFunction .slideContentFunctionItem {
+		background: #fff;
+		margin: 0 0 8px 0;
+		position: relative;
+	}
+	
+	.slideContentFunction .slideContentFunctionItem:last-child {
+		margin: 0;
+	}
+	
+	.slideContentFunctionItem li {
+		height: 56px;
+		line-height: 56px;
+		padding-left: 42px;
+		text-align: left;
+	}
+	
+	.slideContentFunctionItem .slideLeftIcon {
+		position: absolute;
+		width: 32px;
+		height: 32px;
+		display: block;
+		top: 11px;
+		left: 5px;
 	}
 </style>

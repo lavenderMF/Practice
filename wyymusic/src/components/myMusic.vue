@@ -107,6 +107,9 @@
 </script>
 
 <style>
+	.myMusic{
+		padding-top: 50px;
+	}
 	.aboutMy {
 		background: #F2F2F2;
 	}
