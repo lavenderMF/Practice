@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script>
+			//call和apply
+			Function.prototype.bind = function() {
+				var self = this;
+
+				// 需要绑定的this上下文
+				var context = [].shift.call(arguments);
+
+				// 剩余的参数转成数组
+				var args = [].slice.call(arguments);
+
+				return function() {
+					return self.apply(context, [].concat.call(args, [].slice.call(arguments)));
+				}
+			}
+			var obj = {
+				name: 'microzz'
+			};
+			var func = function(a, b, c, d) {
+				console.log(this.name); // microzz
+				console.log([a, b, c, d]); // [1, 2, 3, 4]
+			}.bind(obj, 1, 2);
+			func(3, 4);
+		</script>
+	</body>
+
+</html>
