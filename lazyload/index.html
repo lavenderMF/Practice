@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script>
+			//			这个概念就是写一个CSS样式设置一批背景图片，然后将其隐藏，这样你就看不到那些图片了。那些背景图片就是你想预载的图片。
+			//				#preload-01 { background: url(http://domain.tld/image-01.png) no-repeat -9999px -9999px; } 
+			//				#preload-02 { background: url(http://domain.tld/image-02.png) no-repeat -9999px -9999px; } 
+			//				#preload-03 { background: url(http://domain.tld/image-03.png) no-repeat -9999px -9999px; }
+			//　　			这里为了隐藏这些图片, 使用了位置设置为极大的负值的方法. 还可以直接设置 { width: 0; height: 0; display: none};
+
+			//			css预加载
+			//			function preloader() {
+			//				if(document.getElementById) {
+			//					document.getElementById("preload-01").style.background = "url(http://domain.tld/image-01.png) no-repeat -9999px -9999px";
+			//					document.getElementById("preload-02").style.background = "url(http://domain.tld/image-02.png) no-repeat -9999px -9999px";
+			//					document.getElementById("preload-03").style.background = "url(http://domain.tld/image-03.png) no-repeat -9999px -9999px";
+			//				}
+			//			}
+			//
+			//			function addLoadEvent(func) {
+			//				var oldonload = window.onload;
+			//				if(typeof window.onload != 'function') {
+			//					window.onload = func;
+			//				} else {
+			//					window.onload = function() {
+			//						if(oldonload) {
+			//							oldonload();
+			//						}
+			//						func();
+			//					}
+			//				}
+			//			}
+			//			addLoadEvent(preloader);
+			//
+			//			function callback(obj) {
+			//				console.og(obj);
+			//			};
+
+			function getPreloadImgAttr(url, callback) {
+				var oImg = new Image(); //创建一个Image对象,实现图片的预加载
+				oImg.src = url;　　 // 看下一节,其实应当先进行onload的绑定,再赋值给src
+				if(oImg.complete) {
+					//如果图片已经存在于浏览器缓存,直接调用回调函数
+					callback.call(oImg);
+					return; //直接返回,不再处理onload事件
+				}
+				oImg.onload = function() {
+					//图片下载完毕时异步调用callback函数
+					callback.call(oImg);
+				};
+			}
+			getPreloadImgAttr('image/example.jpg', function() {
+				console.log(this.width, this.height);
+			});
+		</script>
+	</body>
+
+</html>

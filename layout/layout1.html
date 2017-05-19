@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		.container {
+			padding: 0 200px;
+			height: 400px;
+		}
+		
+		.middle {
+			width: 100%;
+			height: 400px;
+			background: #CCCCCC;
+		}
+		
+		.left {
+			width: 200px;
+			margin-left: -100%;
+			left: -200px;
+			height: 400px;
+			background: #D33B30;
+		}
+		
+		.right {
+			width: 200px;
+			margin-left: -200px;
+			height: 400px;
+			right: -200px;
+			background: #E9DFC7;
+		}
+		
+		.col {
+			position: relative;
+			float: left;
+		}
+		
+		/*双飞翼*/
+		.col1 {
+			float: left;
+		}
+		
+		#main1 {
+			width: 100%;
+			height: 400px;
+			background-color: #ccc;
+		}
+		
+		#main-wrap1 {
+			margin: 0 190px 0 190px;
+		}
+		
+		#left1 {
+			width: 190px;
+			height: 400px;
+			margin-left: -100%;
+			background-color: #0000FF;
+		}
+		
+		#right1 {
+			width: 190px;
+			height: 400px;
+			margin-left: -190px;
+			background-color: #FF0000;
+		}
+	</style>
+
+	<body>
+		<!-- 圣杯的 HTML 结构 -->
+		<div class="container">
+			<!-- 中间的 div 必须写在最前面 -->
+			<div class="middle col">中间弹性区</div>
+			<div class="left col">左边栏</div>
+			<div class="right col">右边栏</div>
+		</div>
+		<!-- 双飞翼的 HTML 结构 -->
+		<div id="container1">
+			<div id="main1" class="col1">
+				<div id="main-wrap1">
+					#main
+				</div>
+			</div>
+			<div id="left1" class="col1">
+				#left
+			</div>
+			<div id="right1" class="col1">
+				#right
+			</div>
+		</div>
+	</body>
+
+</html>
