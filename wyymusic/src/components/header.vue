@@ -7,7 +7,7 @@
 					<router-link to="/myMusic">我的</router-link>
 				</div>
 				<div class="tab-item">
-					<router-link to="/findMusic">发现</router-link>
+					<router-link to="/findMusic/recommend">发现</router-link>
 				</div>
 				<div class="tab-item">
 					<router-link to="/dynamic">动态</router-link>
