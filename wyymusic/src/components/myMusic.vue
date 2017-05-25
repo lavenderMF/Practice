@@ -3,7 +3,7 @@
 		<div class="aboutMy">
 			<div class="aboutItem">
 				<div class="leftIcon"></div>
-				<div class="rightTitle">本地音乐<span class="tip tipNum">(0)</span></div>
+				<div class="rightTitle" @click="getNodeApi">本地音乐<span class="tip tipNum">(0)</span></div>
 			</div>
 			<div class="aboutItem">
 				<div class="leftIcon"></div>
@@ -87,12 +87,22 @@
 				collectSongSheetIsShow: true
 			}
 		},
+		created () {
+		},
 		methods: {
 			hideMySongSheet() {
 				this.MySongSheetIsShow = !this.MySongSheetIsShow;
 			},
 			hideCollectSongSheet() {
 				this.collectSongSheetIsShow = !this.collectSongSheetIsShow;
+			},
+			getNodeApi(){
+				//user/playlist?uid=322909476
+				///login/cellphone?phone=18814118009&password=19950706
+				this.$http.get('http://localhost:3000/login/cellphone?phone=18814118009&password=19950706').then(function(data){
+				    console.log(data);
+				    console.log(document.cookie);
+				})
 			}
 		},
 		computed: {
