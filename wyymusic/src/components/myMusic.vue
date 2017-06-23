@@ -3,7 +3,7 @@
 		<div class="aboutMy">
 			<div class="aboutItem">
 				<div class="leftIcon"></div>
-				<div class="rightTitle" @click="getNodeApi">本地音乐<span class="tip tipNum">(0)</span></div>
+				<div class="rightTitle">本地音乐<span class="tip tipNum">(0)</span></div>
 			</div>
 			<div class="aboutItem">
 				<div class="leftIcon"></div>
@@ -29,23 +29,15 @@
 				<div class="setUp"></div>
 			</div>
 			<ul class="mySongSheetList mySongSheetDis" v-show="mySongSheetDis">
-				<li class="mySongSheetItem">
-					<img class="SongSheetAvatar"></img>
-					<div class="rightContent">
-						<div class="SongSheetInfo">
-							<span class="SongSheetName">我的歌单</span>
-							<span class="SongSheetNum">176首</span>
+				<li class="mySongSheetItem" v-for="item in MyMusicSheet" @click="selectSheet(item.id)">
+						<img class="SongSheetAvatar" :src="item.coverImgUrl"></img>
+						<div class="rightContent">
+							<div class="SongSheetInfo">
+								<span class="SongSheetName">{{item.name}}</span>
+								<span class="SongSheetNum">{{item.trackCount}}首</span>
+							</div>
+							<span class="isPlayIcon"></span>
 						</div>
-						<span class="isPlayIcon"></span>
-					</div>
-				</li>
-				<li class="mySongSheetItem">
-					<img class="SongSheetAvatar"></img>
-					<div class="SongSheetInfo">
-						<span class="SongSheetName">我的歌单</span>
-						<span class="SongSheetNum">176首</span>
-					</div>
-					<span class="isPlayIcon"></span>
 				</li>
 			</ul>
 		</div>
@@ -56,23 +48,15 @@
 				<div class="setUp"></div>
 			</div>
 			<ul class="mySongSheetList" v-show="collectSongSheetDis">
-				<li class="mySongSheetItem">
-					<img class="SongSheetAvatar"></img>
+				<li v-for="item in CollectMusicSheet" class="mySongSheetItem" @click="selectSheet(item.id)">
+					<img class="SongSheetAvatar" :src="item.coverImgUrl"></img>
 					<div class="rightContent">
 						<div class="SongSheetInfo">
-							<span class="SongSheetName">我的歌单</span>
-							<span class="SongSheetNum">176首</span>
+							<span class="SongSheetName">{{item.name}}</span>
+							<span class="SongSheetNum">{{item.trackCount}}首 by {{item.creator.nickname}}</span>
 						</div>
 						<span class="isPlayIcon"></span>
 					</div>
-				</li>
-				<li class="mySongSheetItem">
-					<img class="SongSheetAvatar"></img>
-					<div class="SongSheetInfo">
-						<span class="SongSheetName">我的歌单</span>
-						<span class="SongSheetNum">176首</span>
-					</div>
-					<span class="isPlayIcon"></span>
 				</li>
 			</ul>
 		</div>
@@ -84,10 +68,28 @@
 		data() {
 			return {
 				MySongSheetIsShow: true,
-				collectSongSheetIsShow: true
+				collectSongSheetIsShow: true,
+				MyMusicSheet: [],
+				CollectMusicSheet: []
 			}
 		},
 		created () {
+			var uid = this.$store.state.uid;
+			var self = this;
+			this.$http.get('http://localhost:3000/user/playlist?uid=' + uid).then(function(data){
+			    self.$nextTick(function(){
+			    	if(data.data.code == 200){
+				    	for(var i = 0; i < data.data.playlist.length; i++){
+					    	if(data.data.playlist[i].userId == uid){
+					    		self.MyMusicSheet.push(data.data.playlist[i]);
+					    	}else{
+					    		self.CollectMusicSheet.push(data.data.playlist[i]);
+					    	}
+					    }
+				    }
+			    	
+			    })
+			})
 		},
 		methods: {
 			hideMySongSheet() {
@@ -96,13 +98,8 @@
 			hideCollectSongSheet() {
 				this.collectSongSheetIsShow = !this.collectSongSheetIsShow;
 			},
-			getNodeApi(){
-				//user/playlist?uid=322909476
-				///login/cellphone?phone=18814118009&password=19950706
-				this.$http.get('http://localhost:3000/login/cellphone?phone=18814118009&password=19950706').then(function(data){
-				    console.log(data);
-				    console.log(document.cookie);
-				})
+			selectSheet(id) {
+				console.log(id);
 			}
 		},
 		computed: {
@@ -196,12 +193,20 @@
 	
 	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo {
 		flex: 1;
+		overflow: hidden;
 	}
 	
 	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo span {
 		display: block;
 		text-align: left;
 		margin: 20px 0 0 16px;
+		overflow: hidden;
+		height: 18px;
+    	line-height: 18px;
+	    display: -webkit-box;
+	    -webkit-box-orient: vertical;
+	    -webkit-line-clamp: 1;
+    	/*white-space: nowrap;*/
 	}
 	
 	.mySongSheet .mySongSheetList .mySongSheetItem .SongSheetInfo .SongSheetName {
@@ -216,6 +221,5 @@
 	
 	.mySongSheet .mySongSheetList .mySongSheetItem .isPlayIcon {
 		flex: 0 0 40px;
-		margin-right: 10px;
 	}
 </style>

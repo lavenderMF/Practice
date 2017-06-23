@@ -4,6 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import Vuex from 'vuex'
+
+Vue.use(Vuex);
+
+const  vuex_store = new Vuex.Store({
+    state:{
+    		userProfile: {},
+        uid: ''
+    },
+})
 
 Vue.prototype.$http = axios
 
@@ -13,6 +23,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store: vuex_store,
   template: '<App/>',
   components: { App }
 })

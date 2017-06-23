@@ -4,7 +4,7 @@
 			<div class="user">
 				<div class="avatar"></div>
 				<span class="username">H丶MF<em>lv.7</em></span>
-				<div class="signQD">签到</div>
+				<div class="signQD" @click="login">签到</div>
 			</div>
 			<div class="slideContentFunction" ref="slideContentFunction">
 				<ul class="slideContentFunctionItem">
@@ -38,6 +38,15 @@
 		methods: {
 			cancelClick(event) {
 				event.stopPropagation();
+			},
+			login(){
+				var storage = window.localStorage;
+				var self = this;
+				this.$http.get('http://localhost:3000/login/cellphone?phone=18814118009&password=19950706').then(function(data){
+					self.$store.state.uid = data.data.profile.userId;
+					storage.setItem(uid, data.data.profile.userId);   
+					self.$store.state.userProfile = data.data.profile;
+				})
 			}
 		},
 		created() {

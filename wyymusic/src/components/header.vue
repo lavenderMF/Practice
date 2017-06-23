@@ -74,6 +74,7 @@
 	
 	.header {
 		position: fixed;
+		z-index: 9;
 		width: 100%;
 		height: 50px;
 		background: #D33B30;
