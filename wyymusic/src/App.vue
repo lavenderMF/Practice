@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import header from './components/header';
+import header from './components/commom/header';
 
 export default {
   name: 'app',

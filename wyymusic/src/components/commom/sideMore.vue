@@ -73,7 +73,7 @@
 		overflow: hidden;
 		color: #fff;
 		position: relative;
-		background: url(../assets/timg.jpg) no-repeat center;
+		background: url(../../assets/timg.jpg) no-repeat center;
 		background-size: 100% 100%;
 	}
 	

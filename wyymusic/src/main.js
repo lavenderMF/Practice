@@ -5,7 +5,11 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import Vuex from 'vuex'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 
+axios.defaults.withCredentials = true;
+
+Vue.use(VueAwesomeSwiper);
 Vue.use(Vuex);
 
 const  vuex_store = new Vuex.Store({

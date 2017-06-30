@@ -60,36 +60,48 @@
 				</li>
 			</ul>
 		</div>
+		<sheetDetail @closeSheetDetail="closeSheetDetail" :sheetId="sheetId" v-if="sheetDetailShow"></sheetDetail>
 	</div>
 </template>
 
 <script>
+import sheetDetail from './sheetDetail';
 	export default {
 		data() {
 			return {
 				MySongSheetIsShow: true,
 				collectSongSheetIsShow: true,
 				MyMusicSheet: [],
-				CollectMusicSheet: []
+				CollectMusicSheet: [],
+				sheetDetailShow: false,
+				sheetId: ''
 			}
 		},
+		components: {
+			sheetDetail
+		},
 		created () {
-			var uid = this.$store.state.uid;
+			var storage = window.localStorage;
+			var uid = this.$store.state.uid ? this.$store.state.uid : storage.uid;
 			var self = this;
-			this.$http.get('http://localhost:3000/user/playlist?uid=' + uid).then(function(data){
-			    self.$nextTick(function(){
-			    	if(data.data.code == 200){
-				    	for(var i = 0; i < data.data.playlist.length; i++){
-					    	if(data.data.playlist[i].userId == uid){
-					    		self.MyMusicSheet.push(data.data.playlist[i]);
-					    	}else{
-					    		self.CollectMusicSheet.push(data.data.playlist[i]);
-					    	}
+			if(uid != ''){
+				this.$http.get('http://localhost:3000/user/playlist?uid=' + uid).then(function(data){
+				    self.$nextTick(function(){
+				    	if(data.data.code == 200){
+					    	for(var i = 0; i < data.data.playlist.length; i++){
+						    	if(data.data.playlist[i].userId == uid){
+						    		self.MyMusicSheet.push(data.data.playlist[i]);
+						    	}else{
+						    		self.CollectMusicSheet.push(data.data.playlist[i]);
+						    	}
+						    }
 					    }
-				    }
-			    	
-			    })
-			})
+				    	
+				    })
+				});
+			}else{
+				this.$router.push('/findMusic/recommend');
+			}
 		},
 		methods: {
 			hideMySongSheet() {
@@ -99,7 +111,11 @@
 				this.collectSongSheetIsShow = !this.collectSongSheetIsShow;
 			},
 			selectSheet(id) {
-				console.log(id);
+				this.sheetId = id;
+				this.sheetDetailShow = true;
+			},
+			closeSheetDetail(data){//歌单详情传来关闭详情页
+				this.sheetDetailShow = data;
 			}
 		},
 		computed: {
