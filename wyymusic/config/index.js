@@ -29,11 +29,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
     	'/api':{
-        target:'http://localhost:3000',
-        changeOrigin:true,
-        pathRewrite:{
-            '^/api':''
-        }
+            target:'http://localhost:3000',
+            changeOrigin:true,
+            pathRewrite:{
+                '^/api':''
+            }
     	}
     },//设置代理服务器
     // CSS Sourcemaps off by default because relative paths are "buggy"

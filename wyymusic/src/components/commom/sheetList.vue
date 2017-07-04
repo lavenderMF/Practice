@@ -1,7 +1,7 @@
 <template>
 	<div id="sheetList">
 		<ul class="List clearfix">
-			<li v-for="(item,index) in sheetList">
+			<li v-for="(item,index) in sheetList" @click="selectSheet(item.id)">
 				<div class="sheetImg">
 					<img :src="item.picUrl">
 					<span class="playTotal">{{item.playCount}}万</span>
@@ -31,6 +31,11 @@ export default{
 				sheetImg[i].style.height = imgWidth + 'px';
 			}
 		})
+	},
+	methods: {
+		selectSheet(id){
+			this.$emit('songSheetId',id);
+		}
 	}
 }
 </script>

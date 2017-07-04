@@ -14,7 +14,7 @@ Vue.use(Vuex);
 
 const  vuex_store = new Vuex.Store({
     state:{
-    		userProfile: {},
+		userProfile: {},
         uid: ''
     },
 })

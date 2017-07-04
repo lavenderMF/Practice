@@ -56,6 +56,7 @@ export default{
 					bottom: 6px;
 					left: 2px;
 					color: #fff;
+				    height: 12px;
 					font-family: arial;
 					font-size: 12px;
 					display: -webkit-box;

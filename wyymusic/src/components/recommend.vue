@@ -13,11 +13,12 @@
 			<div class="navItem">云音乐热歌榜</div>
 		</div>
 		<theTitle :titleText="titleText[0]"></theTitle>
-		<sheetList :sheetList="sheetList"></sheetList>
+		<sheetList @songSheetId="songSheetId" :sheetList="sheetList"></sheetList>
 		<theTitle :titleText="titleText[1]"></theTitle>
 		<eclusive :eclusiveList="eclusiveList"></eclusive>
 		<theTitle :titleText="titleText[2]"></theTitle>
 		<radioStation :djprogram="djprogram"></radioStation>
+		<sheetDetail @closeSheetDetail="closeSheetDetail" :sheetId="sheetId" v-if="sheetDetailShow"></sheetDetail>
 	</div>
 </template>
 
@@ -26,6 +27,7 @@ import theTitle from './commom/theTitle.vue';
 import radioStation from './commom/radioStation.vue';
 import eclusive from './commom/eclusive.vue';
 import sheetList from './commom/sheetList.vue';
+import sheetDetail from './sheetDetail';
 	export default {
 		data() {
 			return {
@@ -37,14 +39,28 @@ import sheetList from './commom/sheetList.vue';
 				banner: [],
 				djprogram: {},
 				sheetList: {},
-				eclusiveList: {}
+				eclusiveList: {},
+				sheetDetailShow: false,
+				sheetId: ''
 			}
 		},
 		components: {
 			theTitle: theTitle,
 			sheetList: sheetList,
 			radioStation: radioStation,
-			eclusive: eclusive
+			eclusive: eclusive,
+			sheetDetail: sheetDetail
+		},
+		methods: {
+			songSheetId(id){
+				this.$nextTick(function(){
+					this.sheetId = id;
+					this.sheetDetailShow = true;
+				})
+			},
+			closeSheetDetail(data){
+				this.sheetDetailShow = data;
+			}
 		},
 		created(){
 			var self = this;
