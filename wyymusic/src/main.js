@@ -15,8 +15,14 @@ Vue.use(Vuex);
 const  vuex_store = new Vuex.Store({
     state:{
 		userProfile: {},
-        uid: ''
+        uid: '',
+        songId: ''
     },
+    getters: {
+	    songId: state => {
+	      return state.songId
+	    }
+	}
 })
 
 Vue.prototype.$http = axios

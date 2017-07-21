@@ -2,7 +2,7 @@
 	<div class="songList">
 		<div class="listTitle"></div>
 		<ul class="theSongList">
-			<li class="songItem" v-for="(item,index) in songList">
+			<li class="songItem" v-for="(item,index) in songList" @click="selectSong(item.id)">
 				<span class="leftNumber">{{index}}</span>
 				<div class="rigthSongInfo">
 					<div class="leftInfo">
@@ -20,6 +20,12 @@
 	export default {
 		props: {
 			songList: {}
+		},
+		methods: {
+			selectSong(id){
+				// 切换播放歌曲id
+				this.$store.state.songId = id;
+			}
 		}
 	}
 </script>

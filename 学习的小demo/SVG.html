@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		svg,
+		.svg {
+			background-color: #f0f3f9;
+		}
+		
+		.svg {
+			width: 200px;
+			height: 150px;
+		}
+		
+		.rect {
+			width: 120px;
+			height: 90px;
+			position: absolute;
+			margin: 30px 0 0 30px;
+			border-radius: 10px;
+			background-color: #a0b3d6;
+		}
+		
+		.rotate {
+			-webkit-transform: rotate(45deg);
+			transform: rotate(45deg);
+		}
+	</style>
+
+	<body>
+		<p><strong>CSS3控制的45度旋转</strong></p>
+		<div class="svg">
+			<div class="rect rotate"></div>
+		</div>
+		<p><strong>SVG属性控制45度旋转</strong></p>
+		<svg width="200" height="150">
+			<rect x="30" y="30" width="120" height="90" rx="10" ry="10" fill="#a0b3d6" transform="rotate(45, 90 75)"></rect>
+		</svg>
+	</body>
+
+</html>

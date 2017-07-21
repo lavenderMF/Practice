@@ -1,5 +1,15 @@
 <template>
 	<div id="songSheet">
+		<div class="boutique">
+			<div class="boutiqueImg">
+				<img :src="boutiqueSheet.coverImgUrl">
+			</div>
+			<div class="boutiqueText">
+				<h1>精品歌单></h1>
+				<span class="boutiqueName">{{boutiqueSheet.name}}</span>
+				<span class="boutiqueCopywriter">{{boutiqueSheet.copywriter}}</span>
+			</div>
+		</div>
 		<ul class="songSheetList clearfix">
 			<li v-for="item in songSheetList">
 				<div class="songSheetImg">
@@ -17,7 +27,8 @@
 export default{
 	data(){
 		return {
-			songSheetList: {}
+			songSheetList: {},
+			boutiqueSheet: {}
 		}
 	},
 	created(){
@@ -27,12 +38,12 @@ export default{
 			url: 'http://localhost:3000/top/playlist/highquality?limit=10&offset=10'
 		}).then(function(res){
 			self.songSheetList = res.data.playlists;
+			self.boutiqueSheet = res.data.playlists[0];
 			for(let i = 0; i< self.songSheetList.length; i++){
 				if(parseInt(self.songSheetList[i].playCount) > 9999){
 					var playCount = parseInt(self.songSheetList[i].playCount).toString();
 					self.songSheetList[i].playCount = playCount.substring(0,playCount.length - 4) + '万';
 				}
-				
 			}
 			self.$nextTick(function(){
 				var width = document.body.clientWidth;
@@ -49,6 +60,43 @@ export default{
 
 <style lang="less">
 #songSheet{
+	.boutique{
+		width: 100%;
+		height: 180px;
+		background: #574E45;
+		margin: 0 0 20px;
+		display: flex;
+		.boutiqueImg{
+			flex: 0 0 160px;
+			img{
+				width: 140px;
+				height: 140px;
+				margin: 20px 10px;
+			}
+		}
+		.boutiqueText{
+			color: #fff;
+			margin: 25px 0;
+			text-align: left;
+			font-size: 20px;
+			h1{
+				margin: 10px 0;
+			}
+			.boutiqueName{
+				font-size: 16px;
+				width: 82%;
+				margin: 30px 0 15px;
+				display:block;
+				white-space:nowrap;
+				overflow:hidden;
+				text-overflow:ellipsis;
+			}
+			.boutiqueCopywriter{
+				font-size: 14px;
+				color: #ABA29B;
+			}
+		}
+	}
 	.songSheetList{
 		li{
 			width: 47.225%;
