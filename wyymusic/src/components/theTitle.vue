@@ -1,3 +1,4 @@
+<!-- 组件-页面小标题 -->
 <template>
 	<div id="theTitle">
 		{{titleText}}  >

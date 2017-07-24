@@ -1,3 +1,4 @@
+<!-- 排行榜-组件 -->
 <template>
 	<div id="rankingitem">
 		<div class="itemImg">

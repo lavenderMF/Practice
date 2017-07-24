@@ -1,3 +1,4 @@
+<!-- 个性推荐 -->
 <template>
 	<div class="recommend">
 		<swiper :options="swiperOption">

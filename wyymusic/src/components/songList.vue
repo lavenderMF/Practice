@@ -1,3 +1,4 @@
+<!-- 歌单里面的歌曲列表组件 -->
 <template>
 	<div class="songList">
 		<div class="listTitle"></div>

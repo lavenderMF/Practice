@@ -1,3 +1,4 @@
+<!-- 公共头部 -->
 <template>
 	<div class="header">
 		<div class="get-user" @click="showSlide"></div>

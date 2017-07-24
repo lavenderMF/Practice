@@ -1,3 +1,4 @@
+<!-- 发现-排行榜 -->
 <template>
 	<div class="musicRanking">
 		<theTitle :titleText="titleText[0]"></theTitle>

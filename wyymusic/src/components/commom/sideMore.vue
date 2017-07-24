@@ -1,3 +1,4 @@
+<!-- 侧边栏 -->
 <template>
 	<transition name="slide">
 		<div class="sideContent" @click="cancelClick($event)">
