@@ -138,9 +138,9 @@ var webpackConfig = {
   ]
 }
 
-var pages =  utils.getMultiEntry('./src/'+config.moduleName+'/**/**/*.html');
-for (var pathname in pages) {
-  webpackConfig.plugins.push(extractCommonCss);
-}
+// var pages =  utils.getMultiEntry('./src/'+config.moduleName+'/**/**/*.html');
+// for (var pathname in pages) {
+//   webpackConfig.plugins.push(extractCommonCss);
+// }
 
 module.exports = webpackConfig;
