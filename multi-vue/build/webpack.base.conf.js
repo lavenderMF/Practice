@@ -11,7 +11,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var vueCssChunks = new ExtractTextPlugin('css/[name].css');
 
-const extractCommonCss = new ExtractTextPlugin({filename:'css/vendor.css'});
+const extractCommonCss = new ExtractTextPlugin('css/vendor.[hash:3].css');
 
 var projectRoot = path.resolve(__dirname, '../')
 
@@ -64,7 +64,7 @@ var webpackConfig = {
           }
         }
       },
-      // 入口的公共样式提取，有bug，只会提取一次一个入口的公共样式
+      // 入口的公共样式提取，只会提取一次一个入口的公共样式
       {
         test: /\.css$/,
         include: [resolve('src/assets/css/'),resolve('node_modules/')],
@@ -133,14 +133,9 @@ var webpackConfig = {
     ]
   },
   plugins: [
-  // extractCommonCss,
-  vueCssChunks
+      extractCommonCss,
+      vueCssChunks
   ]
 }
-
-// var pages =  utils.getMultiEntry('./src/'+config.moduleName+'/**/**/*.html');
-// for (var pathname in pages) {
-//   webpackConfig.plugins.push(extractCommonCss);
-// }
 
 module.exports = webpackConfig;
