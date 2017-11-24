@@ -30,7 +30,7 @@
                 <ul>
                   <li v-for="(item,index) in goodsList">
                     <div class="pic">
-                      <a href="#"><img v-lazy="'/static/'+item.productImg" alt=""></a>
+                      <a href="#"><img v-lazy="'/static/'+item.productImage" alt=""></a>
                     </div>
                     <div class="main">
                       <div class="name">{{item.productName}}</div>
@@ -92,22 +92,26 @@ export default {
 			url: '/goods',
 			method: 'get'
 		}).then((res) => {
-			this.goodsList = res.data.result;
+            if(res.data.status == "0"){
+    			this.goodsList = res.data.result.list;
+            }else{
+                this.goodsList = [];
+            }
 		})
 	},
 	methods: {
 		showFilterPop(){
-      this.filterBy = true;
-      this.overLayflag = true;
+            this.filterBy = true;
+            this.overLayflag = true;
 		},
-    closePop(){
-      this.filterBy = false;
-      this.overLayflag = false;
-    },
-    setPriceFilter(index){
-      this.priceChecked = index;
-      this.closePop();
-    }
+        closePop(){
+            this.filterBy = false;
+            this.overLayflag = false;
+        },
+        setPriceFilter(index){
+            this.priceChecked = index;
+            this.closePop();
+        }
 	}
 }
 </script>

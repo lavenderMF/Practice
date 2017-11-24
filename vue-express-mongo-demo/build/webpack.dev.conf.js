@@ -8,11 +8,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
-const express = require('express')
-const app = express()
-var goodsData = require('../mock/goods.json')
-var apiRoutes = express.Router()
-app.use(apiRoutes)
+// const express = require('express')
+// const app = express()
+// var goodsData = require('../mock/goods.json')
+// var apiRoutes = express.Router()
+// app.use(apiRoutes)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -39,10 +39,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     watchOptions: {
       poll: config.dev.poll,
     },
-    before(app) {
-      app.get('/goods', (req, res) => {
-        res.json(goodsData)
-      })
+    before() {
+      // app.get('/goods', (req, res) => {
+      //   res.json(goodsData)
+      // })
     }
   },
   plugins: [
