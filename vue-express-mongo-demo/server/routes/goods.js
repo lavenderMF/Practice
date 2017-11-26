@@ -21,8 +21,8 @@ mongoose.connection.on('disconnected', function(){
 
 // 接口
 router.get('/', function(req,res,next){
-	let page = req.param("page");
-	let pageSize = req.param("page");
+	let page = parseInt(req.param("page"));
+	let pageSize = parseInt(req.param("pageSize"));
 	let sort = req.param("sort");
 	let skip = (page-1)*pageSize;
 	let params = {};
