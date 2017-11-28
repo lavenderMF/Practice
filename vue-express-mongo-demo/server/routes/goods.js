@@ -64,4 +64,58 @@ router.get('/', function(req,res,next){
 	})
 });
 
+//加入到购物车
+router.post("/addCart", function(req,res,next){
+	let userId = '100000077';
+	var productId = req.body.productId;
+	var User = require('../models/user');
+
+
+	User.findOne({
+		userId: userId
+	}, function(err,userDoc){
+		if(err){
+			res.json({
+				status: '1',
+				msg: err.message
+			});
+		}else{
+			if(userDoc){
+				Goods.findOne({productId: productId}, function(err, doc){
+					if(err){
+						res.json({
+							status: '1',
+							msg: err.message
+						});
+					}else{
+						if(doc){
+							doc.productNum = 1;
+							doc.checked = 1;
+							userDoc.cartList.push(doc);
+							userDoc.save(function(err1, doc1){
+								if(err1){
+									res.json({
+										status: '1',
+										msg: err.message
+									});
+								}else{
+									res.json({
+										status: '0',
+										msg: '',
+										result: 'suc'
+									})
+								}
+							});
+						}
+					}
+				})
+			}
+			res.json({
+				status: '0',
+
+			})
+		}
+	})
+});
+
 module.exports = router;
