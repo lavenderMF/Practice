@@ -81,39 +81,59 @@ router.post("/addCart", function(req,res,next){
 			});
 		}else{
 			if(userDoc){
-				Goods.findOne({productId: productId}, function(err, doc){
-					if(err){
-						res.json({
-							status: '1',
-							msg: err.message
-						});
-					}else{
-						if(doc){
-							doc.productNum = 1;
-							doc.checked = 1;
-							userDoc.cartList.push(doc);
-							userDoc.save(function(err1, doc1){
-								if(err1){
-									res.json({
-										status: '1',
-										msg: err.message
-									});
-								}else{
-									res.json({
-										status: '0',
-										msg: '',
-										result: 'suc'
-									})
-								}
-							});
-						}
+				let goodsItem = '';
+				userDoc.cartList.forEach(function(item){
+					if(item.productId == productId){
+						goodsItem = item;
+						item.productNum ++;
 					}
-				})
+				});
+				if(goodsItem){
+					userDoc.save(function(err1, doc1){
+						if(err1){
+							res.json({
+								status: '1',
+								msg: err.message
+							});
+						}else{
+							res.json({
+								status: '0',
+								msg: '',
+								result: 'suc'
+							})
+						}
+					});
+				}else{
+					Goods.findOne({productId: productId}, function(err, doc){
+						if(err){
+							res.json({
+								status: '1',
+								msg: err.message
+							});
+						}else{
+							if(doc){
+								doc.productNum = 1;
+								doc.checked = 1;
+								userDoc.cartList.push(doc);
+								userDoc.save(function(err1, doc1){
+									if(err1){
+										res.json({
+											status: '1',
+											msg: err.message
+										});
+									}else{
+										res.json({
+											status: '0',
+											msg: '',
+											result: 'suc'
+										})
+									}
+								});
+							}
+						}
+					})
+				}
 			}
-			res.json({
-				status: '0',
-
-			})
 		}
 	})
 });
