@@ -16,8 +16,9 @@
 	        <div class="navbar-menu-container">
 	          <!--<a href="/" class="navbar-link">我的账户</a>-->
 	          <span class="navbar-link"></span>
-	          <a href="javascript:void(0)" class="navbar-link">Login</a>
-	          <a href="javascript:void(0)" class="navbar-link">Logout</a>
+	          <span v-text="nickName" v-if="nickName"></span>
+	          <a href="javascript:void(0)" class="navbar-link" @click="loginModalFlag=true" v-if="!nickName">Login</a>
+	          <a href="javascript:void(0)" class="navbar-link" @click="logout" v-if="nickName">Logout</a>
 	          <div class="navbar-cart-container">
 	            <span class="navbar-cart-count"></span>
 	            <a class="navbar-link navbar-cart-link" href="/#/cart">
@@ -29,11 +30,11 @@
 	        </div>
 	      </div>
 	    </div>
-	    <div class="md-modal modal-msg md-modal-transition md-show">
+	    <div class="md-modal modal-msg md-modal-transition" :class="{'md-show':loginModalFlag}">
 			<div class="md-modal-inner">
 				<div class="md-top">
 				  <div class="md-title">Login in</div>
-				  <button class="md-close">Close</button>
+				  <button class="md-close" @click="loginModalFlag=false">Close</button>
 				</div>
 				<div class="md-content">
 				  <div class="confirm-tips">
@@ -47,7 +48,7 @@
 				      </li>
 				      <li class="regi_form_input noMargin">
 				        <i class="icon IconPwd"></i>
-				        <input type="password" v-model="userPwd" tabindex="2"  name="password" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Password" >
+				        <input type="password" v-model="userPwd" tabindex="2"  name="password" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Password" @keyup.enter="login">
 				      </li>
 				    </ul>
 				  </div>
@@ -57,7 +58,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="md-overlay"></div>
+		<div class="md-overlay" v-if="loginModalFlag" @click="loginModalFlag=false"></div>
 	</header>
 </template>
 
@@ -69,11 +70,28 @@ export default {
   	return {
   		userName: '',
   		userPwd: '',
-  		errorTip: false
+  		errorTip: false,
+  		loginModalFlag: false,
+  		nickName: ''
   	}
   },
+  mounted(){
+  	this.checkLogin();
+  },
   methods: {
+  	checkLogin(){
+  		this.$http.get('/users/checkLogin').then((response)=>{
+  			let res = response.data;
+  			if(res.status == '0'){
+  				this.nickName = res.result;
+  			}
+  		})
+  	},
   	login(){
+  		if(!this.userName || !this.userPwd){
+  			this.errorTip = true;
+  			return;
+  		}
   		this.$http.post('/users/login',{
   			userName: this.userName,
   			userPwd: this.userPwd
@@ -81,9 +99,16 @@ export default {
   			let res = response.data;
   			if(res.status == 0){
   				this.errorTip = false;
+  				this.loginModalFlag = false;
+  				this.nickName = res.result.userName;
   			}else{
   				this.errorTip = true;
   			}
+  		})
+  	},
+  	logout(){
+  		this.$http.post('/users/logout').then((response) => {
+  			this.nickName = '';
   		})
   	}
   }

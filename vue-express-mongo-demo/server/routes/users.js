@@ -6,6 +6,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+// 登录
 router.post('/login', function(req,res,next){
 	let param = {
 		userName: req.body.userName,
@@ -23,7 +24,11 @@ router.post('/login', function(req,res,next){
 					path: '/',
 					maxAge: 1000*60*60
 				});
-				req.session.user = doc;
+				res.cookie('userName',doc.userName,{
+					path: '/',
+					maxAge: 1000*60*60
+				});
+				// req.session.user = doc;
 				res.json({
 					status: '0',
 					msg: '',
@@ -31,9 +36,64 @@ router.post('/login', function(req,res,next){
 						userName: doc.userName
 					}
 				})
+			}else{
+				res.json({
+					status: '1',
+					msg: '登录出错'
+				})
 			}
 		}
 	})
 });
 
+// 登出
+router.post('/logout', function(req,res,next){
+	res.cookie('userId', '',{
+		path: '/',
+		maxAge: -1
+	})
+	res.json({
+		status: '0',
+		msg: '',
+		result: ''
+	})
+})
+
+//
+router.get('/checkLogin', function(req,res,next){
+	if(req.cookies.userId){
+		res.json({
+			status: '0',
+			msg: '',
+			result: req.cookies.userName || ''
+		})
+	}else{
+		res.json({
+			status: '1',
+			msg: '未登录',
+			result: ''
+		})
+	}
+});
+
+// 当前用户的购物车数据
+router.get('/cartList', function(req,res,next){
+	var userId = req.cookies.userId;
+	User.findOne({userId:userId}, function(err, doc){
+		if(err){
+			res.json({
+				status: '1',
+				msg: err.message
+			})
+		}else{
+			if(doc){
+				res.json({
+					status: '0',
+					msg: '',
+					result: doc.cartList
+				})
+			}
+		}
+	})
+})
 module.exports = router;

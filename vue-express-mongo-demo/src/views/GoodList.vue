@@ -1,5 +1,14 @@
 <template>
 	<div>
+    <symbol id="icon-arrow-short" viewBox="0 0 25 32">
+        <title>arrow-short</title>
+        <path class="path1" d="M24.487 18.922l-1.948-1.948-8.904 8.904v-25.878h-2.783v25.878l-8.904-8.904-1.948 1.948 12.243 12.243z"></path>
+    </symbol>
+    <symbol id="icon-status-ok" viewBox="0 0 32 32">
+        <title>status-ok</title>
+        <path class="path1" d="M22.361 10.903l-9.71 9.063-2.998-2.998c-0.208-0.209-0.546-0.209-0.754 0s-0.208 0.546 0 0.754l3.363 3.363c0.104 0.104 0.241 0.156 0.377 0.156 0.131 0 0.261-0.048 0.364-0.143l10.087-9.414c0.215-0.201 0.227-0.539 0.026-0.754s-0.539-0.226-0.754-0.026z"></path>
+        <path class="path2" d="M16 30.933c-8.234 0-14.933-6.699-14.933-14.933s6.699-14.933 14.933-14.933c8.234 0 14.933 6.699 14.933 14.933s-6.699 14.933-14.933 14.933zM16 0c-8.822 0-16 7.178-16 16 0 8.823 7.178 16 16 16s16-7.177 16-16c0-8.822-7.178-16-16-16z"></path>
+    </symbol>
       <nav-header></nav-header>
       <nav-bread>
       	<span slot="bread">GOODS</span>
@@ -9,7 +18,7 @@
           <div class="filter-nav">
             <span class="sortby">Sort by:</span>
             <a href="javascript:void(0)" class="default cur">Default</a>
-            <a href="javascript:void(0)" @click="sortGoods" class="price">Price <svg class="icon icon-arrow-short"><use xlink:href="#icon-arrow-short"></use></svg></a>
+            <a href="javascript:void(0)" @click="sortGoods" class="price">Price <svg class="icon icon-arrow-short" :class="{'sort-up': !sortFlag}"><use xlink:href="#icon-arrow-short"></use></svg></a>
             <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterPop">Filter by</a>
           </div>
           <div class="accessory-result">
@@ -51,6 +60,27 @@
         </div>
       </div>
       <div class="md-overlay" v-show="overLayflag" @click="closePop"></div>
+      <modal v-bind:mdShow="mdShow" v-on:close="cosleModal">
+          <p slot="message">
+            请先登录，否则无法加入购物车！
+          </p>
+          <div slot="btnGroup">
+            <a class="btn btn--m" href="javascript:;" @click="mdShow = false">关闭</a>
+          </div>
+        </modal>
+
+        <modal v-bind:mdShow="mdShowCart" v-on:close="cosleModal">
+          <p slot="message">
+            <svg class="icon icon-status-ok" >
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-status-ok"></use>
+            </svg>
+            <span>加入购物车成功！</span>
+          </p>
+          <div slot="btnGroup">
+            <a class="btn btn--m" href="javascript:;" @click="mdShowCart = false">继续购物</a>
+            <router-link class="btn btn--m" href="javascript:;" to="/cart">查看购物车</router-link>
+          </div>
+        </modal>
       <nav-footer></nav-footer>
     </div>
 </template>
@@ -62,6 +92,7 @@ import './../assets/css/login.css';
 import NavHeader from '@/components/Header'
 import NavFooter from '@/components/Footer'
 import NavBread from '@/components/Bread'
+import Modal from '@/components/Modal'
 export default {
 	name: 'GoodList',
 	data () {
@@ -91,13 +122,16 @@ export default {
             sortFlag: true,
             page: 1,
             pageSize: 8,
-            busy: true
+            busy: true,
+            mdShow: false,
+            mdShowCart: false
 		}
 	},
 	components: {
 		'NavHeader': NavHeader,
 		'NavFooter': NavFooter,
-		'NavBread': NavBread
+		'NavBread': NavBread,
+        'Modal': Modal
 	},
 	mounted: function(){
 		this.getGoodsList();
@@ -124,7 +158,7 @@ export default {
                 sort: this.sortFlag ? 1 : -1,
                 priceLevel: this.priceChecked
             };
-            this.$http.get('/goods',{
+            this.$http.get('/goods/list',{
                 params: param
             }).then((res) => {
                 if(res.data.status == "0"){
@@ -161,12 +195,15 @@ export default {
                 productId: productId
             }).then((res)=>{
                 if(res.data.status == 0){
-                    alert('加入陈宫');
+                    this.mdShowCart = true;
                 }else{
-                    alert("msg:" + res.msg);
+                    this.mdShow = true;
                 }
                 
             })
+        },
+        cosleModal () {  //关闭模态框
+          this.mdShow = false;
         }
 	}
 }
@@ -178,5 +215,9 @@ export default {
     height: 100px;
     line-height: 100px;
     text-align: center;
+}
+.sort-up{
+    transform: rotate(180deg);
+    transition: all .3 ease-out;
 }
 </style>
