@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import GoodList from '@/views/GoodList.vue'
 import Cart from '@/views/Cart.vue'
+import Address from '@/views/address.vue'
 Vue.use(Router)
 // console.log(GoodList);
 export default new Router({
@@ -16,6 +17,11 @@ export default new Router({
     	path: '/cart',
     	name: 'Cart',
     	component: Cart
+    },
+    {
+      path: '/address',
+      name: 'Address',
+      component: Address
     }
   ]
 })

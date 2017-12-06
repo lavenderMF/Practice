@@ -6,13 +6,13 @@ import router from './router'
 import axios from 'axios'
 import vueLazyLoad from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
-
+import {currency} from './util/currency'
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
 Vue.use(vueLazyLoad,{
 	loading: '/static/loading-svg/loading-bars.svg'
 });
-
+Vue.filter('currency',currency);
 Vue.use(infiniteScroll);
 /* eslint-disable no-new */
 new Vue({

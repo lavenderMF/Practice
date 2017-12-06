@@ -138,4 +138,131 @@ router.post('/cartEdit', function(req, res, next){
 		}
 	})
 })
+
+router.post('/editCheckAll',function(req,res,next){
+	var userId = req.cookies.userId,
+		checkAll = req.body.checkAll;
+	User.findOne({userId:userId}, function(err,user){
+		if(err){
+			res.json({
+				status: '1',
+				msg: err.message
+			})
+		}else{
+			if(user){
+				user.cartList.forEach((item)=>{
+					item.checked = checkAll;
+				})
+				user.save(function(err1,doc){
+					if(err1){
+						res.json({
+							status: '1',
+							msg: err.message,
+							result: ''
+						})
+					}else{
+						res.json({
+							status: '0',
+							msg: '',
+							result: 'suc'
+						})
+					}
+				})
+			}
+		}
+	})
+});
+
+router.get('/addressList', (req, res, next) => {
+	var userId = req.cookies.userId;
+
+	User.findOne({userId}, (err, doc) => {
+		if (err) {
+		  res.json({
+		    status: '1',
+		    msg: err.message,
+		    result: ''
+		  })
+		} else {
+		  res.json({
+		    status: '0',
+		    msg: '',
+		    result: doc.addressList
+		  })
+		}
+	})
+});
+
+router.post('/setDefault', function(req,res,next){
+	var userId = req.cookies.userId;
+	var addressId = req.body.addressId;
+
+	if(!addressId){
+		res.json({
+			status: '1003',
+			msg: 'addressId is null',
+			result: ''
+	    })
+	}else{
+		User.findOne({userId}, (err, doc) => {
+			if (err) {
+				res.json({
+					status: '1',
+					msg: err.message,
+					result: ''
+				})
+			} else {
+				var addressList = doc.addressList;
+				addressList.forEach(item => {
+					if (item.addressId == addressId) {
+				  		item.isDefault = true;
+					} else {
+				  		item.isDefault = false;
+					} 
+				}); 
+
+				doc.save((err1, doc1) => {
+					if (err1) {
+						res.json({
+							status: '1',
+							msg: err.message,
+							result: ''
+						})
+					} else {
+						res.json({
+							status: '0',
+							msg: '',
+							result: ''
+						})
+					}
+				})
+			}
+	    })
+	}
+	
+})
+
+router.post('/delAddress', function(req,res,next){
+	var userId = req.cookies.userId;
+	var addressId = req.body.addressId;
+	User.update({userId}, {
+	    $pull: {
+	    	'addressList': {
+	    		'addressId': addressId
+	    	}
+	    }
+	}, (err, doc) => {
+	    if (err) {
+	    	res.json({
+	    		status: '1',
+	        	msg: err.message
+	    	});
+	    } else {
+	    	res.json({
+	        	status: '0',
+	        	msg: ''
+	    	});
+	    }
+	})
+})
 module.exports = router;
